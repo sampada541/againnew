@@ -1,0 +1,77 @@
+/* DoctorFilesUploadComponent.css */
+
+.file-upload-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.center-container {
+  width: 80%;
+  max-width: 600px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #fffcfc;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+p{
+  text-align: center;
+}
+
+.warning {
+  text-align: center;
+  color: red;
+}
+
+.file-upload-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+}
+
+.file-input {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 8px;
+  width: 100%;
+}
+
+.upload-btn {
+  background-color: #195ea7;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.upload-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Optional: Add more styling to make the form visually appealing */
+/* Responsive styling */
+@media screen and (max-width: 768px) {
+  .center-container {
+    width: 90%;
+    padding: 10px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+}

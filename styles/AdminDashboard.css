@@ -1,0 +1,38 @@
+/* Styles for the table container */
+.table-container {
+    overflow-x: auto;
+  }
+  
+  /* Styles for the table */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-top: 60px;
+  }
+  
+  /* Styles for table header */
+
+  .table th {
+    padding: 12px;
+    text-align: left;
+    background-color: #f2f2f2;
+    border: 1px solid #dddddd;
+  }
+  
+  /* Styles for table data */
+  .table td {
+    padding: 12px;
+    border: 1px solid #dddddd;
+  }
+  
+  /* Styles for alternating row colors */
+  .table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  /* Styles for table actions buttons */
+  .table button {
+    margin-right: 5px;
+  }
+  

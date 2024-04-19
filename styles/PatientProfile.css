@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #00022b;
+    padding: 50px;
+    width: 800px;
+    margin: 100px auto 0; /* Adjust margin-bottom to create space after the form */
+    border-radius: 20px;
+    background: linear-gradient(to right,#e7f1fb,#95c2e3);
+  }
+  
+  
+  .form-content {
+    display: flex;
+    padding:30px;
+  }
+  
+  .left-section {
+    flex: 1;
+    margin-right: 100px;
+  }
+  
+  .right-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+    margin-left: 100px;
+  }
+  
+  .profile-image-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  
+  .profile-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin-bottom: 20px;
+  }
+  
+  .no-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    color: #999;
+  }
+  
+  .upload-image-label {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .image-buttons {
+    display: block; /* Ensure it's displayed as a block element */
+    margin-top: 10px; /* Adjust margin-top to create space between image and buttons */
+    text-align: center; /* Center the buttons horizontally */
+  }
+  
+  @media (max-width: 768px) {
+    .profile-form {
+      width: auto;
+    }
+  }
+
+  .profile-details {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px; /* Add margin-bottom between details */
+  }
+
+
+
+
+h1{
+    font-family: Arial, sans-serif;
+    font-weight: 400px;
+}
+
+p{
+    font-family: Arial, sans-serif;
+    font-weight: 200px;
+}
+
+button{
+  padding: 10px 20px; /* Adjust padding as needed */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  background-color: #22785d;
+  color: #fff;
+}
+  
+/* PatientProfile.css */
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%; /* Reduced the height to 80% of the viewport height */
+  
+  overflow: auto;
+}
+
+/* Close button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+/* Adjust the modal content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+}
+
+
+

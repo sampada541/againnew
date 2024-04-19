@@ -1,0 +1,88 @@
+/* Add these styles to your PatientHomePage.css */
+
+.patient-home-page-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: calc(100% - 40px); /* Set max-width to prevent exceeding viewport width */
+    margin: 80px auto; /* Center the grid container horizontally */
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 0;
+  }
+  
+  .patient-home-page-content {
+    max-width: 1000px;
+    width: 100%;
+  }
+  
+  .patient-home-page-left-section {
+    grid-column: 1;
+    padding: 10px;
+    border: 1px solid #ccc; /* Add border to sections */
+    border-radius: 5px; /* Optional: Add border radius for rounded corners */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .patient-home-page-center-space {
+    grid-column: 2;
+  }
+  
+  .patient-home-page-right-sections {
+    grid-column: 3;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .patient-home-page-upcoming-appointments,
+  .patient-home-page-offer-section {
+    flex: 1; /* Let both sections share equal height */
+    padding: 10px;
+    border: 1px solid #ccc; /* Add border to sections */
+    border-radius: 5px; /* Optional: Add border radius for rounded corners */
+    height: 50vh;
+    position: relative;
+  }
+  
+  .patient-home-page-upcoming-appointments {
+    margin-bottom: 20px; /* Add space between upcoming appointments and offer section */
+  }
+  
+  .patient-home-page-section + .patient-home-page-section {
+    margin-top: 40px; /* Add space between sections */
+  }
+  
+  /* Ensure navbar is above content */
+  .navbar {
+    z-index: 1;
+  }
+  
+  /* Media query for responsiveness */
+  @media screen and (max-width: 768px) {
+    .patient-home-page-container {
+      grid-template-columns: 1fr;
+    }
+  
+    .patient-home-page-left-section,
+    .patient-home-page-center-space,
+    .patient-home-page-right-sections {
+      grid-column: auto;
+      width: 100%;
+    }
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  .patient-home-page-offer-section img {
+    position: absolute; /* Position image within container */
+    top: 0; /* Align image to the top */
+    left: 0; /* Align image to the left */
+    width: 100%; /* Ensure image takes full width of container */
+    height: 100%; /* Ensure image takes full height of container */
+    object-fit: cover; /* Ensure image covers the entire container */
+    border-radius: 5px; /* Optional: Add border radius for rounded corners */
+  }
+  

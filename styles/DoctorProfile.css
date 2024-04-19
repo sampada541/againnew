@@ -1,0 +1,50 @@
+.doctor-profile {
+  padding: 20px;
+}
+
+.profile-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.doctor-profile-left,
+.doctor-profile-right {
+  width: 48%; /* Adjust as needed */
+}
+
+.doctor-profile-card {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.profile-pic img {
+  width: 150px; /* Adjust as needed */
+  height: 150px; /* Adjust as needed */
+}
+
+.proof-images {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.proof-image {
+  margin-right: 10px; /* Adjust spacing between proof images */
+}
+
+.details p {
+  margin-bottom: 10px;
+}
+
+.profile-actions {
+  margin-top: 20px;
+}
+
+.profile-pic img {
+  border-radius: 50%;
+}
+/* DoctorProfile.css */
+

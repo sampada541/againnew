@@ -1,0 +1,52 @@
+/* header.css */
+
+.navbar {
+  background: linear-gradient(to right, #007bff, #28a745);
+  width: 100%;
+  z-index: 1;
+}
+
+.navbar-brand,
+.navbar-toggler-icon {
+  color: #fff; /* White text color for brand and toggler icon */
+}
+
+.navbar-nav .nav-link {
+  color: #fff !important;
+}
+
+.navbar-nav .nav-link:hover {
+  background-color: transparent !important;
+}
+
+.dropdown-menu {
+  background: linear-gradient(to right, #007bff, #28a745);
+}
+
+.dropdown-item {
+  color: #fff !important;
+}
+
+.dropdown-item:hover {
+ 
+    background-color: transparent !important;
+  
+}
+
+.navbar-nav .ant-badge {
+  color: #fff;
+}
+
+/* Custom CSS */
+.dropdown-menu.dropdown-menu-right {
+  right: 0;
+  left: auto;
+  max-width: calc(100vw - 10px); /* Adjust as needed */
+  overflow-x: auto;
+}
+
+
+
+/* Adjust styles based on your specific preferences */
+
+/* ... (existing styles) */

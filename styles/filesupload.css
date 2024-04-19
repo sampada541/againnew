@@ -1,0 +1,42 @@
+/* FileUploadModal.css */
+
+.modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+    
+  }
+  
+  .form-input {
+    margin-bottom: 20px;
+  }
+  
+  .input-label {
+    margin-right: 10px;
+  }
+  
+  .input-field {
+    padding: 8px; /* Add padding */
+    border: 1px solid #ccc; /* Add border */
+    border-radius: 4px; /* Add border radius */
+    width: 100%; /* Set width to 100% */
+    box-sizing: border-box; /* Ensure padding and border are included in width */
+    font-size: 16px; /* Set font size */
+  }
+
+  .button-proceed {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .button-proceed:hover {
+    background: green; /* Change background color on hover */
+  }
+  
+  /* Additional styles for input-field can be added here */
+  
