@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 
 const SearchInput = () => {
   const [specialization, setSpecialization] = useState(""); // State for specialization

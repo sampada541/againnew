@@ -1,109 +1,42 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import toast from "react-hot-toast";
 import Layout from "../../components/Layout/Layout";
-import { useLocation, useNavigate } from "react-router-dom";
-import fetchDoctorDocuments from "../Doctor/fetchDoctorDocuments";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../../styles/AdminDashboard.css";
-
-const DoctorsList = ({ doctors, openDocumentProof }) => {
-  return (
-    <Layout title="Search Results">
-      <div className="Search-result-page-cards">
-        {doctors.map((doctor) => (
-          <div className="Search-result-page-card" key={doctor._id}>
-            <div className="Search-doctor-details">
-              <h4>Doctor Details</h4>
-              <div className="Search-card-content">
-                <div>
-                  <strong>Name:</strong> {doctor.name}
-                </div>
-                <div>
-                  <strong>Phone:</strong> {doctor.phone}
-                </div>
-                <div>
-                  <strong>Gender:</strong> {doctor.gender}
-                </div>
-                <div>
-                  <strong>Location:</strong> {doctor.location}
-                </div>
-                <div>
-                  <strong>Experience:</strong> {doctor.experience}
-                </div>
-                <div>
-                  <strong>Specialization:</strong> {doctor.specialization}
-                </div>
-              </div>
-            </div>
-            <div className="card-buttons">
-              <button
-                className="btn btn-info btn-sm"
-                onClick={() => openDocumentProof(doctor._id, "idProof")}
-              >
-                ID Proof
-              </button>
-              <button
-                className="btn btn-info btn-sm"
-                onClick={() => openDocumentProof(doctor._id, "licenseID")}
-              >
-                License
-              </button>
-              <button
-                className="btn btn-info btn-sm"
-                onClick={() => openDocumentProof(doctor._id, "addressID")}
-              >
-                Address Proof
-              </button>
-              <a
-                href={doctor.calendlyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <button className="btn btn-primary btn-sm">Schedule</button>
-              </a>
-            </div>
-          </div>
-        ))}
-      </div>
-    </Layout>
-  );
-};
+import fetchDoctorDocuments from "../Doctor/fetchDoctorDocuments";
+import { useLocation } from "react-router-dom";
 
 const SearchResults = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const searchParams = new URLSearchParams(location.search);
-  const specialization = searchParams.get("q");
   const [doctors, setDoctors] = useState([]);
+  const specialization = new URLSearchParams(location.search).get("q");
 
-  useEffect(() => {
-    if (!specialization) {
-      toast.error("Please enter a specialization to search.");
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
-      // Navigate to the homepage
-      return;
-    }
-
-    fetchDoctors(); // Call the fetchDoctors function
-  }, [specialization]);
-
+  // Function to fetch doctors' details from the backend
   const fetchDoctors = async () => {
     try {
+      // API call to fetch doctors' details
       const res = await axios.get(
         `/api/v1/fetch/searchQuery/${specialization}`
       );
       if (res && res.data.success) {
-        setDoctors(res.data.doctors);
+        setDoctors(res.data.doctors); // Set fetched doctor details to state
       } else {
-        toast.error(res.data.message); // Display info notification
+        setDoctors([]); // Clear doctors array if fetching fails
+        toast.info(res.data.message); // Display error message if fetching fails
       }
     } catch (error) {
-      toast.error(error.message); // Display error notification
+      setDoctors([]); // Clear doctors array if an error occurs during fetching
+      toast.error("Please Enter Specialization From The Given Option"); // Display error message if an error occurs during fetching
     }
   };
 
+  // Fetch doctors' details when the component mounts and when the URL changes
+  useEffect(() => {
+    fetchDoctors();
+  }, [location]);
+
+  // Function to open document proof in a new tab
   const openDocumentProof = (doctorId, documentType) => {
     const fetchIdProof = async () => {
       try {
@@ -144,12 +77,88 @@ const SearchResults = () => {
     fetchIdProof();
   };
 
-  // Display toast notification if no doctors are found for the searched specialization
-  if (doctors.length === 0 || !doctors) {
-    toast.error("No doctors found for the searched specialization.");
-  }
   return (
-    <DoctorsList doctors={doctors} openDocumentProof={openDocumentProof} />
+    <Layout title="Admin Dashboard">
+      <div>
+        <h4>Doctor Details</h4>
+        <div className="table-container">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Gender</th>
+                <th>Location</th>
+                <th>Experience</th>
+                <th>Specialization</th>
+                <th>Profile Picture</th>
+                <th>ID Proof</th>
+                <th>License</th>
+                <th>Address Proof</th>
+              </tr>
+            </thead>
+            <tbody>
+              {doctors.length === 0 ? (
+                <tr>
+                  <td colSpan="10">No doctors found for {specialization}</td>
+                </tr>
+              ) : (
+                doctors.map((doctor) => (
+                  <tr key={doctor._id}>
+                    <td>{doctor.name}</td>
+                    <td>{doctor.phone}</td>
+                    <td>{doctor.gender}</td>
+                    <td>{doctor.location}</td>
+                    <td>{doctor.experience}</td>
+                    <td>{doctor.specialization}</td>
+                    <td>
+                      {/* View button for profile picture */}
+                      <button
+                        className="btn btn-info btn-sm"
+                        onClick={() => openDocumentProof(doctor._id, "photo")}
+                      >
+                        View
+                      </button>
+                    </td>
+                    <td>
+                      {/* View button for ID Proof */}
+                      <button
+                        className="btn btn-info btn-sm"
+                        onClick={() => openDocumentProof(doctor._id, "idProof")}
+                      >
+                        View
+                      </button>
+                    </td>
+                    <td>
+                      {/* View button for License */}
+                      <button
+                        className="btn btn-info btn-sm"
+                        onClick={() =>
+                          openDocumentProof(doctor._id, "licenseID")
+                        }
+                      >
+                        View
+                      </button>
+                    </td>
+                    <td>
+                      {/* View button for Address Proof */}
+                      <button
+                        className="btn btn-info btn-sm"
+                        onClick={() =>
+                          openDocumentProof(doctor._id, "addressID")
+                        }
+                      >
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </Layout>
   );
 };
 
