@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { useDoctorAuth } from "../../context/docauth";
 import Layout from "../../components/Layout/Layout";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddSlotsForm = () => {
   const [doctor, setDoctor] = useDoctorAuth("");
@@ -18,7 +20,7 @@ const AddSlotsForm = () => {
 
       // Check if selected date and time is in the past
       if (selectedDateTime < new Date()) {
-        console.error("Selected date and time should be in the future.");
+        toast.error("Selected date and time should be in the future.");
         return;
       }
 
@@ -29,10 +31,13 @@ const AddSlotsForm = () => {
         dateTime: formattedDateTime,
       });
 
-      console.log(response.data.message);
+      if (response.status === 201) {
+        toast.success(response.data.message);
+      } else {
+        toast.error("Failed to add appointment slot.");
+      }
     } catch (error) {
-      console.error("Error adding appointment slot:", error);
-      console.error("Failed to add appointment slot.");
+      toast.error(error.response.data);
     } finally {
       setLoading(false);
     }
