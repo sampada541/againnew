@@ -18,6 +18,7 @@ import FilesUpload from "./pages/Doctor/FileUploadModal";
 import AddSpecialization from "./pages/Admin/AddSpecilization";
 import SearchResults from "./pages/Patient/SearchResults";
 import Caledly from "./pages/Doctor/Caledly";
+import AddSlots from "./pages/Doctor/AddSlots";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
       <Route path="/admin-dashboard" element={<AdminDashboard />} />
       <Route path="/add-specialization" element={<AddSpecialization />} />
       <Route path="/caledly" element={<Caledly />} />
+      
       <Route path="/files-upload" element={<FilesUpload />} />
       <Route path="/SearchResults" element={<SearchResults />} />
       <Route path="/dashboard/*" element={<PatientRoute />}>
@@ -41,6 +43,7 @@ function App() {
       <Route path="/dashboard/*" element={<DoctorRoute />}>
         <Route path="doctor-home" element={<DoctorHomePage />} />
         <Route path="doctor-profile" element={<DoctorProfile />} />
+        <Route path="add-slots" element={<AddSlots />} />
       </Route>
       <Route path="/*" element={<PageNotFound />} />
     </Routes>
