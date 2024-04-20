@@ -78,7 +78,7 @@ const SearchResults = () => {
   };
 
   return (
-    <Layout title="Admin Dashboard">
+    <Layout title="Search Results">
       <div>
         <h4>Doctor Details</h4>
         <div className="table-container">
