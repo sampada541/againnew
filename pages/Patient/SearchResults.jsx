@@ -5,9 +5,10 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../styles/AdminDashboard.css";
 import fetchDoctorDocuments from "../Doctor/fetchDoctorDocuments";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SearchResults = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const [doctors, setDoctors] = useState([]);
   const specialization = new URLSearchParams(location.search).get("q");
@@ -70,15 +71,21 @@ const SearchResults = () => {
           newWindow.document.write(`Failed to fetch ${documentType}`);
         }
       } catch (error) {
-        console.error(`Error fetching ${documentType}:`, error);
+        toast.error(error);
       }
     };
 
     fetchIdProof();
   };
 
+  const handleSubmit = (doctorId) => {
+    navigate(
+      `/dashboard/appointment-dashboard?id=${encodeURIComponent(doctorId)}`
+    );
+  };
+
   return (
-    <Layout title="Admin Dashboard">
+    <Layout title="Search Results">
       <div>
         <h4>Doctor Details</h4>
         <div className="table-container">
@@ -95,6 +102,7 @@ const SearchResults = () => {
                 <th>ID Proof</th>
                 <th>License</th>
                 <th>Address Proof</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -149,6 +157,16 @@ const SearchResults = () => {
                         }
                       >
                         View
+                      </button>
+                    </td>
+
+                    <td>
+                      {/* Button to proceed for appointment booking */}
+                      <button
+                        className="btn btn-info btn-sm"
+                        onClick={() => handleSubmit(doctor._id)}
+                      >
+                        Book Appointment
                       </button>
                     </td>
                   </tr>

@@ -4,12 +4,18 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../styles/PredictDisease.css";
+import { useNavigate } from "react-router-dom";
 
 const SymptomPage = () => {
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
   const [isPredicting, setIsPredicting] = useState(false);
+  const navigate = useNavigate();
 
   const predictDisease = async () => {
+    if (selectedSymptoms.length === 0) {
+      toast.error("At least one symptom must be selected.");
+      return;
+    }
     try {
       setIsPredicting(true);
       const res = await axios.post("/api/v1/pred-dis/predict", {
@@ -18,6 +24,10 @@ const SymptomPage = () => {
       if (res) {
         const dis = res.data.Predicted_Disease;
         toast.success(dis);
+        setTimeout(() => {
+          const specialization = mapDiseaseTospecialization(dis);
+          navigate(`/SearchResults?q=${encodeURIComponent(specialization)}`);
+        }, 2000);
       } else {
         toast.error(res.data.message);
       }
@@ -29,6 +39,113 @@ const SymptomPage = () => {
     }
   };
   // mapping function
+  const mapDiseaseTospecialization = (disease) => {
+    let specialization;
+
+    switch (disease) {
+      case "Acne":
+      case "Psoriasis":
+      case "Impetigo":
+      case "Fungal infection":
+        specialization = "Dermatologist";
+        break;
+      case "Allergy":
+        specialization = "Allergist or Immunologist";
+        break;
+      case "GERD":
+      case "Chronic cholestasis":
+      case "Peptic ulcer disease":
+      case "Gastroenteritis":
+        specialization = "Gastroenterologist";
+        break;
+      case "Hepatitis A":
+      case "Hepatitis B":
+      case "Hepatitis C":
+      case "Hepatitis D":
+      case "Hepatitis E":
+      case "Alcoholic hepatitis":
+        specialization = "Hepatologist";
+        break;
+      case "Bronchial Asthma":
+      case "Pneumonia":
+        specialization = "Pulmonologist";
+        break;
+      case "Hypertension":
+      case "Heart attack":
+        specialization = "Cardiologist";
+        break;
+      case "Migraine":
+      case "Paralysis (brain hemorrhage)":
+      case "Cervical spondylosis":
+      case "Paroxysmal Positional Vertigo":
+        specialization = "Neurologist";
+        break;
+      case "Osteoarthritis":
+      case "Arthritis":
+        specialization = "Orthopedic Surgeon or Physiatrist";
+        break;
+      case "Typhoid":
+      case "Malaria":
+      case "Chicken pox":
+      case "Dengue":
+      case "Tuberculosis":
+      case "Common Cold":
+        specialization = "Infectious Disease Specialist";
+        break;
+      case "Diabetes":
+      case "Hypothyroidism":
+      case "Hyperthyroidism":
+      case "Hypoglycemia":
+        specialization = "Endocrinologist";
+        break;
+      case "Pediatric diseases":
+        specialization = "Pediatrician";
+        break;
+      case "General medical conditions":
+        specialization = "Internal Medicine";
+        break;
+      case "Dimorphic hemorrhoids (piles)":
+        specialization = "Colorectal Surgeon";
+        break;
+      case "Any acute medical condition requiring immediate attention":
+        specialization = "Emergency Medicine Specialist";
+        break;
+      case "Varicose veins":
+        specialization = "Vascular Surgeon";
+        break;
+      case "Arthritis":
+        specialization = "Rheumatologist";
+        break;
+      case "Urinary tract infection":
+        specialization = "Urologist or Nephrologist";
+        break;
+      case "Eye conditions":
+        specialization = "Ophthalmologist";
+        break;
+      case "Mental health conditions":
+        specialization = "Psychiatrist";
+        break;
+      case "Cancer-related conditions":
+        specialization = "Oncologist";
+        break;
+      case "Blood-related disorders":
+        specialization = "Hematologist";
+        break;
+      case "Kidney-related conditions":
+        specialization = "Nephrologist";
+        break;
+      case "Gynecological conditions":
+        specialization = "Gynecologist";
+        break;
+      case "Male reproductive system conditions":
+        specialization = "Andrologist";
+        break;
+      default:
+        specialization = "Physician";
+    }
+
+    return specialization;
+  };
 
   const handleSymptomToggle = (symptom) => {
     const updatedSymptoms = [...selectedSymptoms];
@@ -39,14 +156,6 @@ const SymptomPage = () => {
       updatedSymptoms.splice(index, 1);
     }
     setSelectedSymptoms(updatedSymptoms);
-  };
-
-  const handlePredict = () => {
-    if (selectedSymptoms.length === 0) {
-      toast.error("At least one symptom must be selected.");
-      return;
-    }
-    predictDisease();
   };
 
   const symptoms = [

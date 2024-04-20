@@ -18,6 +18,8 @@ import FilesUpload from "./pages/Doctor/FileUploadModal";
 import AddSpecialization from "./pages/Admin/AddSpecilization";
 import SearchResults from "./pages/Patient/SearchResults";
 import Caledly from "./pages/Doctor/Caledly";
+import AddSlots from "./pages/Doctor/AddSlots";
+import AppointmentDashboard from "./pages/Patient/AppointmentBookingDashboard";
 
 function App() {
   return (
@@ -30,6 +32,7 @@ function App() {
       <Route path="/admin-dashboard" element={<AdminDashboard />} />
       <Route path="/add-specialization" element={<AddSpecialization />} />
       <Route path="/caledly" element={<Caledly />} />
+      
       <Route path="/files-upload" element={<FilesUpload />} />
       <Route path="/SearchResults" element={<SearchResults />} />
       <Route path="/dashboard/*" element={<PatientRoute />}>
@@ -37,10 +40,12 @@ function App() {
         <Route path="patient-upload" element={<PatientPhotoUploadForm />} />
         <Route path="patient-profile" element={<PatientProfile />} />
         <Route path="patient-home" element={<PatientHomePage />} />
+        <Route path="appointment-dashboard" element={<AppointmentDashboard />} />
       </Route>
       <Route path="/dashboard/*" element={<DoctorRoute />}>
         <Route path="doctor-home" element={<DoctorHomePage />} />
         <Route path="doctor-profile" element={<DoctorProfile />} />
+        <Route path="add-slots" element={<AddSlots />} />
       </Route>
       <Route path="/*" element={<PageNotFound />} />
     </Routes>

@@ -1,72 +1,72 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-//import { useHistory } from "react-router-dom"; // Import useHistory hook
 import Layout from "../../components/Layout/Layout";
 import "../../styles/AppointmentBookingDashboard.css"; // Import CSS file
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AppointmentDashboard() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [doctors, setDoctors] = useState([]);
-  //const history = useHistory(); // Initialize useHistory hook
+  const location = useLocation();
+  const doctorId = new URLSearchParams(location.search).get("id");
+  const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
     axios
-      .get("https://your-api-url/doctors")
+      .get(`/api/v1/fetch/fetchSlots/${doctorId}`)
       .then((response) => {
-        setDoctors(response.data);
+        setAppointments(response.data);
       })
       .catch((error) => {
         console.error("Error fetching doctor data:", error);
       });
   }, []);
+  toast.success(doctorId);
+  console.log(doctorId);
 
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const scheduleAppointment = (doctorName) => {
-    console.log("Redirecting to " + doctorName + "'s profile page...");
+  const bookAppointment = (appointmentId) => {
+    console.log("Redirecting to " + appointmentId + "'s profile page...");
     // Redirect to the doctor's profile page
-    //history.push(`/doctors/${doctorName}`); // Assuming doctorName is a unique identifier
   };
 
   return (
-    <Layout>
-      <div className="appointment-dashboard">
-        <div className="filter-section">
-          <label htmlFor="location">Location:</label>
-          <input type="text" id="location" name="location" />
-          {/* Add more filter options as needed */}
-        </div>
-        <div className="search-bar">
-          <input
-            type="text"
-            id="search"
-            name="search"
-            placeholder="Search doctors..."
-            onChange={handleSearch}
-          />
-        </div>
-        <div className="results">
-          {doctors.map(
-            (doctor) =>
-              doctor.name.toLowerCase().includes(searchQuery.toLowerCase()) && (
-                <div className="card" key={doctor.id}>
-                  <img
-                    src={doctor.photo}
-                    alt={doctor.name}
-                    className="doctor-photo"
-                  />
-                  <h3>{doctor.name}</h3>
-                  <p>{doctor.gender}</p>
-                  <p>{doctor.specialty}</p>
-                  <p>{doctor.address}</p>
-                  <button onClick={() => scheduleAppointment(doctor.name)}>
-                    Schedule Appointment
-                  </button>
-                </div>
-              )
-          )}
+    <Layout title="Search Results">
+      <div>
+        <h4>Doctor Details</h4>
+        <div className="table-container">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Gender</th>
+              </tr>
+            </thead>
+            <tbody>
+              {appointments.length === 0 ? (
+                <tr>
+                  <td colSpan="10">No slot found</td>
+                </tr>
+              ) : (
+                appointments.map((appointment) => (
+                  <tr key={appointment._id}>
+                    <td>{appointment.dateTime}</td>
+                    <td>{appointment.endDateTime}</td>
+
+                    <td>
+                      {/* View button for profile picture */}
+                      <button
+                        className="btn btn-info btn-sm"
+                        onClick={() => bookAppointment(appointment._id)}
+                      >
+                        Book
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </Layout>

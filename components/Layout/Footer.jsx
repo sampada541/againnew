@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../../styles/Footer.css";
+import "react-toastify/dist/ReactToastify.css";
 
 const Footer = () => {
   return (
@@ -8,7 +9,10 @@ const Footer = () => {
       <div className="container">
         <div className="row gx-5">
           <div className="col-md-4">
-            <p className="small link-danger pt-2 pb-0 mb-0 ftcol">
+            <p
+              className="small link-danger pt-2 pb-0 mb-0 ftcol"
+              style={{ textAlign: "left" }}
+            >
               Get A Lot Of Information About Us
             </p>
 
