@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import "../../styles/PredictDisease.css";
-import { useNavigate } from "react-router-dom";
 
 const SymptomPage = () => {
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
@@ -26,7 +26,14 @@ const SymptomPage = () => {
         toast.success(dis);
         setTimeout(() => {
           const specialization = mapDiseaseTospecialization(dis);
-          navigate(`/SearchResults?q=${encodeURIComponent(specialization)}`);
+          const wantsRecommendation = window.confirm(
+            "Do you want to get recommended doctors for this condition?"
+          );
+          if (wantsRecommendation) {
+            navigate(`/SearchResults?q=${encodeURIComponent(specialization)}`);
+          } else {
+            navigate("/dashboard/patient-home");
+          }
         }, 2000);
       } else {
         toast.error(res.data.message);
@@ -38,6 +45,7 @@ const SymptomPage = () => {
       setIsPredicting(false);
     }
   };
+
   // mapping function
   const mapDiseaseTospecialization = (disease) => {
     let specialization;

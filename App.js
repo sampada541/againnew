@@ -17,7 +17,6 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import FilesUpload from "./pages/Doctor/FileUploadModal";
 import AddSpecialization from "./pages/Admin/AddSpecilization";
 import SearchResults from "./pages/Patient/SearchResults";
-import Caledly from "./pages/Doctor/Caledly";
 import AddSlots from "./pages/Doctor/AddSlots";
 import AppointmentDashboard from "./pages/Patient/AppointmentBookingDashboard";
 
@@ -31,8 +30,6 @@ function App() {
       <Route path="/doctor-login" element={<DoctorLogin />} />
       <Route path="/admin-dashboard" element={<AdminDashboard />} />
       <Route path="/add-specialization" element={<AddSpecialization />} />
-      <Route path="/caledly" element={<Caledly />} />
-      
       <Route path="/files-upload" element={<FilesUpload />} />
       <Route path="/SearchResults" element={<SearchResults />} />
       <Route path="/dashboard/*" element={<PatientRoute />}>

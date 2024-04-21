@@ -71,7 +71,7 @@ function AppointmentDashboard() {
   };
 
   return (
-    <Layout title="Search Results">
+    <Layout title="Appointment Booking">
       <div>
         <h4>Doctor Details</h4>
         <div className="table-container">

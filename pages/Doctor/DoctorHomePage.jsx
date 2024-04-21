@@ -2,102 +2,78 @@ import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout/Layout";
 import axios from "axios";
 import { useDoctorAuth } from "../../context/docauth";
-import "../../styles/DoctorHomePage.css";
+import { toast } from "react-toastify";
 
 const DoctorHomePage = () => {
+  const [DoctorAuth, setDoctorAuth] = useDoctorAuth();
   const [appointments, setAppointments] = useState([]);
-  const [fetchError, setFetchError] = useState(false);
+  const doctorId = DoctorAuth?.doctor?._id;
 
   useEffect(() => {
-    // Fetch appointments data from the server when the component mounts
-    fetchData();
+    fetchAppointments();
   }, []);
 
-  const fetchData = async () => {
+  const fetchAppointments = async () => {
     try {
-      const response = await axios.get("/api/v1/doctor/appointments"); // Fetch appointments data for the doctor from the backend server
+      const res = await axios.get(
+        `/api/v1/fetch/booked/doctorAppointment/${doctorId}`
+      );
 
-      if (response && response.data && response.data.appointments) {
-        setAppointments(response.data.appointments);
-        setFetchError(false); // Reset fetch error state if data is fetched successfully
+      if (res.data.success) {
+        setAppointments(res.data.appointments);
       } else {
-        setFetchError(true);
+        toast.info(res.data.message);
       }
     } catch (error) {
+      toast.error("Something went wrong while fetching appointments.");
       console.error("Error fetching appointments:", error);
-      setFetchError(true);
     }
   };
 
-  const handleMarkAttendance = async (id, status) => {
-    try {
-      // Send a request to update the attendance status
-      const response = await axios.put(`/api/v1/doctor/appointments/${id}`, {
-        attended: status,
-      });
-
-      if (response && response.data && response.data.success) {
-        // Update the attendance status locally if the request was successful
-        setAppointments((prevAppointments) =>
-          prevAppointments.map((appointment) =>
-            appointment.id === id
-              ? { ...appointment, attended: status }
-              : appointment
-          )
-        );
-      } else {
-        console.error("Failed to update attendance status");
-      }
-    } catch (error) {
-      console.error("Error updating attendance status:", error);
-    }
-  };
+  function convertToIST(dateTimeString) {
+    const utcDateTime = new Date(dateTimeString);
+    const istDateTime = new Date(
+      utcDateTime.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+    );
+    return istDateTime.toLocaleString();
+  }
 
   return (
     <Layout title="Doctor Homepage">
-      <div className="appointment-container">
-        <h2 className="title">Appointment List</h2>
-        {fetchError ? (
-          <p>Error fetching appointments. Please try again later.</p>
-        ) : (
-          <table className="appointment-table">
-            <thead>
+      <div className="admin-dashboard-container">
+        <h2>Doctor Appointments</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Start Date and Time</th>
+              <th>End Date and Time</th>
+              <th>Patient Name</th>
+              <th>Patient Gender</th>
+              <th>Patient Age</th>
+              <th>Location</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {appointments.length === 0 ? (
               <tr>
-                <th className="table-heading">Si. No.</th>
-                <th className="table-heading">Patient Name</th>
-                <th className="table-heading">Appointment Time</th>
-                <th className="table-heading">Remarks</th>
-                <th className="table-heading">Status</th>
-                <th className="table-heading">Actions</th>
+                <td colSpan="7">No appointments found</td>
               </tr>
-            </thead>
-            <tbody>
-              {appointments.map((appointment, index) => (
-                <tr key={appointment.id}>
-                  <td>{index + 1}</td>
-                  <td>{appointment.patientName}</td>
-                  <td>{appointment.appointmentTime}</td>
-                  <td>{appointment.remarks}</td>
-                  <td>{appointment.attended ? "Attended" : "Unattended"}</td>
-                  <td>
-                    <button
-                      onClick={() =>
-                        handleMarkAttendance(
-                          appointment.id,
-                          !appointment.attended
-                        )
-                      }
-                    >
-                      {appointment.attended
-                        ? "Mark Unattended"
-                        : "Mark Attended"}
-                    </button>
-                  </td>
+            ) : (
+              appointments.map((appointment) => (
+                <tr key={appointment._id}>
+                  <td>{convertToIST(appointment.dateTime)}</td>
+                  <td>{convertToIST(appointment.endDateTime)}</td>
+                  <td>{appointment.patient.name}</td>
+                  <td>{appointment.patient.gender}</td>
+                  <td>{appointment.patient.age}</td>
+                  <td>{appointment.patient.location}</td>
+                  <td>{appointment.status}</td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
     </Layout>
   );

@@ -2,32 +2,51 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Layout from "../../components/Layout/Layout";
 import "../../styles/PatientHomePage.css";
+import { toast } from "react-toastify";
+import { usePatientAuth } from "../../context/Patientauth";
 
 const PatientHomePage = () => {
-  const [historyAppointments, setHistoryAppointments] = useState([]);
-  const [upcomingAppointments, setUpcomingAppointments] = useState([]);
+  const [PatientAuth, setPatientAuth] = usePatientAuth();
+  const [allAppointments, setAllAppointments] = useState([]);
+  const patientId = PatientAuth?.patient?._id;
+
+  function convertToIST(dateTimeString) {
+    const utcDateTime = new Date(dateTimeString);
+    const istDateTime = new Date(
+      utcDateTime.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+    );
+    return istDateTime.toLocaleString();
+  }
 
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        // Fetch history appointments
-        const historyResponse = await axios.get(
-          "/api/v1/patient/history-appointments"
+        const response = await axios.get(
+          `/api/v1/fetch/booked/appointment/${patientId}`
         );
-        setHistoryAppointments(historyResponse.data.appointments || []);
-
-        // Fetch upcoming appointments
-        const upcomingResponse = await axios.get(
-          "/api/v1/patient/upcoming-appointments"
-        );
-        setUpcomingAppointments(upcomingResponse.data.appointments || []);
+        console.log(response);
+        // Assuming the response contains an array of appointments with fields: id, date, reason
+        setAllAppointments(response.data.appointments);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        toast.error("Error fetching appointments:", error);
       }
     };
 
     fetchAppointments();
   }, []);
+
+  // Separate appointments into history and upcoming based on date
+  const historyAppointments = allAppointments.filter((appointment) => {
+    const currentDate = new Date();
+    const appointmentDate = new Date(appointment.dateTime);
+    return appointmentDate < currentDate;
+  });
+
+  const upcomingAppointments = allAppointments.filter((appointment) => {
+    const currentDate = new Date();
+    const appointmentDate = new Date(appointment.dateTime);
+    return appointmentDate >= currentDate;
+  });
 
   return (
     <Layout title="Patient Home">
@@ -37,9 +56,7 @@ const PatientHomePage = () => {
           <h2>History of Appointments</h2>
           <ul>
             {historyAppointments.map((appointment) => (
-              <li key={appointment.id}>
-                {appointment.date} - {appointment.reason}
-              </li>
+              <li key={appointment.id}>{convertToIST(appointment.dateTime)}</li>
             ))}
           </ul>
         </div>
@@ -53,7 +70,7 @@ const PatientHomePage = () => {
             <ul>
               {upcomingAppointments.map((appointment) => (
                 <li key={appointment.id}>
-                  {appointment.date} - {appointment.reason}
+                  {convertToIST(appointment.dateTime)}
                 </li>
               ))}
             </ul>

@@ -3,9 +3,11 @@ import Layout from "../../components/Layout/Layout";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "../../styles/AdminDashboard.css";
+import "../../styles/SearchResults.css";
 import fetchDoctorDocuments from "../Doctor/fetchDoctorDocuments";
 import { useLocation, useNavigate } from "react-router-dom";
+import Carousel from "react-bootstrap/Carousel";
+import Card from "react-bootstrap/Card";
 
 const SearchResults = () => {
   const navigate = useNavigate();
@@ -86,95 +88,58 @@ const SearchResults = () => {
 
   return (
     <Layout title="Search Results">
-      <div>
-        <h4>Doctor Details</h4>
-        <div className="table-container">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Phone</th>
-                <th>Gender</th>
-                <th>Location</th>
-                <th>Experience</th>
-                <th>Specialization</th>
-                <th>Profile Picture</th>
-                <th>ID Proof</th>
-                <th>License</th>
-                <th>Address Proof</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {doctors.length === 0 ? (
-                <tr>
-                  <td colSpan="10">No doctors found for {specialization}</td>
-                </tr>
-              ) : (
-                doctors.map((doctor) => (
-                  <tr key={doctor._id}>
-                    <td>{doctor.name}</td>
-                    <td>{doctor.phone}</td>
-                    <td>{doctor.gender}</td>
-                    <td>{doctor.location}</td>
-                    <td>{doctor.experience}</td>
-                    <td>{doctor.specialization}</td>
-                    <td>
-                      {/* View button for profile picture */}
-                      <button
-                        className="btn btn-info btn-sm"
-                        onClick={() => openDocumentProof(doctor._id, "photo")}
-                      >
-                        View
-                      </button>
-                    </td>
-                    <td>
-                      {/* View button for ID Proof */}
-                      <button
-                        className="btn btn-info btn-sm"
-                        onClick={() => openDocumentProof(doctor._id, "idProof")}
-                      >
-                        View
-                      </button>
-                    </td>
-                    <td>
-                      {/* View button for License */}
-                      <button
-                        className="btn btn-info btn-sm"
-                        onClick={() =>
-                          openDocumentProof(doctor._id, "licenseID")
-                        }
-                      >
-                        View
-                      </button>
-                    </td>
-                    <td>
-                      {/* View button for Address Proof */}
-                      <button
-                        className="btn btn-info btn-sm"
-                        onClick={() =>
-                          openDocumentProof(doctor._id, "addressID")
-                        }
-                      >
-                        View
-                      </button>
-                    </td>
-
-                    <td>
-                      {/* Button to proceed for appointment booking */}
-                      <button
-                        className="btn btn-info btn-sm"
-                        onClick={() => handleSubmit(doctor._id)}
-                      >
-                        Book Appointment
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+      <div className="search-results-container">
+        <Carousel>
+          {doctors.map((doctor, index) => (
+            <Carousel.Item key={index}>
+              <Card className="doctor-card">
+                <Card.Body>
+                  <Card.Title>{doctor.name}</Card.Title>
+                  <Card.Text>
+                    <p>
+                      <strong>Specialization:</strong> {doctor.specialization}
+                    </p>
+                    <p>
+                      <strong>Location:</strong> {doctor.location}
+                    </p>
+                    <p>
+                      <strong>Gender:</strong> {doctor.gender}
+                    </p>
+                    <p>
+                      <strong>Phone:</strong> {doctor.phone}
+                    </p>
+                  </Card.Text>
+                  <div className="search-results-btn-container">
+                    <button
+                      className="btn btn-info btn-sm"
+                      onClick={() => openDocumentProof(doctor._id, "idProof")}
+                    >
+                      View ID
+                    </button>
+                    <button
+                      className="btn btn-info btn-sm"
+                      onClick={() => openDocumentProof(doctor._id, "licenseID")}
+                    >
+                      View License
+                    </button>
+                    <button
+                      className="btn btn-info btn-sm"
+                      onClick={() => openDocumentProof(doctor._id, "addressID")}
+                    >
+                      View Address
+                    </button>
+                    <button
+                      className="btn btn-info btn-sm"
+                      onClick={() => handleSubmit(doctor._id)}
+                    >
+                      Book Appointment
+                    </button>
+                  </div>
+                </Card.Body>
+              </Card>
+            </Carousel.Item>
+          ))}
+        </Carousel>
       </div>
     </Layout>
   );

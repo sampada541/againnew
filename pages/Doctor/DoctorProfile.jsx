@@ -20,6 +20,46 @@ const DoctorProfile = () => {
     fetchImage();
   }, [doctorId]);
 
+  const openDocumentProof = (doctorId, documentType) => {
+    const fetchIdProof = async () => {
+      try {
+        // Fetch the image URL
+        const imageUrl = await fetchDoctorDocuments(doctorId, documentType);
+
+        // Create a new window
+        const newWindow = window.open();
+
+        // If the image URL is available, load it into the new window
+        if (imageUrl) {
+          // Create a new HTML document
+          const documentContent = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>${documentType}</title>
+            </head>
+            <body>
+              <img src="${imageUrl}" alt="${documentType}" />
+            </body>
+            </html>
+          `;
+
+          // Write the HTML content to the new window
+          newWindow.document.write(documentContent);
+        } else {
+          // If imageUrl is empty or undefined, display an error message
+          newWindow.document.write(`Failed to fetch ${documentType}`);
+        }
+      } catch (error) {
+        console.error(`Error fetching ${documentType}:`, error);
+      }
+    };
+
+    fetchIdProof();
+  };
+
   return (
     <Layout title="Doctor Profile">
       <div className="container">
@@ -37,9 +77,33 @@ const DoctorProfile = () => {
                     )}
                   </div>
                 </div>
+                <div className="document-buttons">
+                  {/* View button for ID Proof */}
+                  <button
+                    className="btn btn-info btn-sm"
+                    onClick={() => openDocumentProof(doctorId, "idProof")}
+                  >
+                    View ID Proof
+                  </button>
+                  {/* View button for License */}
+                  <button
+                    className="btn btn-info btn-sm"
+                    onClick={() => openDocumentProof(doctorId, "licenseID")}
+                  >
+                    View License
+                  </button>
+                  {/* View button for Address Proof */}
+                  <button
+                    className="btn btn-info btn-sm"
+                    onClick={() => openDocumentProof(doctorId, "addressID")}
+                  >
+                    View Address Proof
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+          {/* Doctor Details section */}
           <div className="col-md-8">
             <div className="card">
               <div className="card-body">

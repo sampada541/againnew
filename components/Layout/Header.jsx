@@ -71,7 +71,7 @@ const Header = () => {
                       to={`/dashboard/patient-profile`}
                       className="nav-link"
                     >
-                      Dashboard
+                      Profile
                     </NavLink>
                   </li>
                   <li className="nav-item">

@@ -1,15 +1,13 @@
+/* DoctorProfile.css */
+
 .doctor-profile {
   padding: 20px;
 }
 
 .profile-container {
   display: flex;
+  flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
   justify-content: space-between;
-}
-
-.doctor-profile-left,
-.doctor-profile-right {
-  width: 48%; /* Adjust as needed */
 }
 
 .doctor-profile-card {
@@ -18,11 +16,14 @@
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Subtle shadow for a modal-like effect */
+  max-width: 400px; /* Set a maximum width for responsiveness */
 }
 
 .profile-pic img {
-  width: 150px; /* Adjust as needed */
-  height: 150px; /* Adjust as needed */
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
 }
 
 .proof-images {
@@ -32,19 +33,32 @@
 }
 
 .proof-image {
-  margin-right: 10px; /* Adjust spacing between proof images */
+  margin: 0 10px 10px 0; /* Adjust spacing between proof images while maintaining responsiveness */
 }
 
 .details p {
   margin-bottom: 10px;
+  text-align: center; /* Center text within doctor details section */
 }
 
 .profile-actions {
   margin-top: 20px;
+  text-align: center; /* Center buttons in the doctor profile card */
 }
 
-.profile-pic img {
-  border-radius: 50%;
+.btn-info {
+  margin: 5px; /* Add spacing between buttons */
 }
-/* DoctorProfile.css */
 
+/* Responsive adjustments for smaller screens */
+
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column; /* Stack cards vertically on small screens */
+    align-items: center;
+  }
+
+  .doctor-profile-card {
+    margin: 10px auto; /* Center cards horizontally on small screens */
+  }
+}

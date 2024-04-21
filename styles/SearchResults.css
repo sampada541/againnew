@@ -1,0 +1,41 @@
+.search-results-container {
+    max-width: 100%; /* Ensure the container takes full width */
+    padding: 0 20px; /* Add padding to the container */
+    display: flex;
+    flex-direction: column; /* Align items in a column */
+    align-items: center; /* Center items horizontally */
+  }
+  
+  .doctor-card {
+    width: 100%; /* Set card width to fill the container */
+    margin-bottom: 20px; /* Add bottom margin to create space between cards */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .doctor-card .card-body {
+    padding: 20px;
+  }
+  
+  .doctor-card p {
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  
+  .search-results-btn-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .search-results-btn-container button {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 5px 10px; /* Adjust padding to make the buttons smaller */
+    font-size: 12px; /* Adjust font size to make the buttons smaller */
+  }
+  
+  @media screen and (min-width: 576px) {
+    .search-results-container {
+      margin-top: 100px; /* Add margin-top for larger screens */
+    }
+  }
+  

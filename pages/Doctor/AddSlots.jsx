@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useDoctorAuth } from "../../context/docauth";
@@ -10,6 +10,37 @@ const AddSlotsForm = () => {
   const [doctor, setDoctor] = useDoctorAuth("");
   const [dateTime, setDateTime] = useState("");
   const [loading, setLoading] = useState(false);
+  const doctorId = doctor?.doctor?._id;
+  const [appointments, setAppointments] = useState([]);
+
+  // show previous added slots
+  useEffect(() => {
+    // Check if doctorId is available
+    if (!doctorId) {
+      toast.error("Doctor ID not provided");
+      return;
+    }
+
+    axios
+      .get(`/api/v1/fetch/preSlots/${doctorId}`)
+      .then((response) => {
+        const { appointments } = response.data;
+        setAppointments(appointments);
+      })
+      .catch((error) => {
+        console.error("Error fetching doctor data:", error);
+        toast.error("Error fetching doctor data");
+      });
+  }, [doctorId]);
+  console.log(appointments);
+
+  function convertToIST(dateTimeString) {
+    const utcDateTime = new Date(dateTimeString);
+    const istDateTime = new Date(
+      utcDateTime.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+    );
+    return istDateTime.toLocaleString();
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,6 +65,7 @@ const AddSlotsForm = () => {
 
       if (response.status === 201) {
         toast.success(response.data.message);
+        window.location.reload();
       } else {
         toast.error("Failed to add appointment slot.");
       }
@@ -71,7 +103,35 @@ const AddSlotsForm = () => {
               </form>
             </div>
           </div>
-          <div className="col-md-6">{/* Right column content */}</div>
+          <div className="col-md-6">
+            {/* Right column content */}
+            <table>
+              <thead>
+                <tr>
+                  <th>Start Date and Time</th>
+                  <th>End Date And Time</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {appointments.length === 0 ? (
+                  <tr>
+                    <td colSpan="3">No slots found</td>
+                  </tr>
+                ) : (
+                  appointments.map((appointment) => (
+                    <tr key={appointment._id}>
+                      <td>{convertToIST(appointment.dateTime)}</td>
+                      <td>{convertToIST(appointment.endDateTime)}</td>
+                      <td>
+                        {appointment.isAvailable === true ? "empty" : "booked"}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </Layout>
