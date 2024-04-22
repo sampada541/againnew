@@ -19,6 +19,7 @@ import AddSpecialization from "./pages/Admin/AddSpecilization";
 import SearchResults from "./pages/Patient/SearchResults";
 import AddSlots from "./pages/Doctor/AddSlots";
 import AppointmentDashboard from "./pages/Patient/AppointmentBookingDashboard";
+import AboutUs from "./pages/AboutUs";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
       <Route path="/add-specialization" element={<AddSpecialization />} />
       <Route path="/files-upload" element={<FilesUpload />} />
       <Route path="/SearchResults" element={<SearchResults />} />
+      <Route path="about-us" element={<AboutUs />} />
       <Route path="/dashboard/*" element={<PatientRoute />}>
         <Route path="predict-disease" element={<PredictDisease />} />
         <Route path="patient-upload" element={<PatientPhotoUploadForm />} />

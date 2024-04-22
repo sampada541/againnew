@@ -1,0 +1,27 @@
+.about-container {
+    margin-top: 100px;
+  }
+  
+  .about-image img {
+    height: auto;
+    margin-left: auto; /* Align image to the right */
+    margin-right: auto; /* Align image to the right */
+  }
+  
+  .about-heading {
+    margin-bottom: auto; /* Add margin-bottom for spacing */
+    color: #a53e76;
+  }
+  
+  .about-text p {
+    padding-left: 20px; /* Add space to the left of the text */
+    padding-right: 20px; /* Add space to the right of the text */
+    text-align: justify;
+  }
+  
+  .join-us {
+    background-color: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+  }
+  
